@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/user"
+            android:icon="@drawable/ic_user"
+            android:title="个人资料" />
+        <item
+            android:id="@+id/history"
+            android:icon="@drawable/ic_history"
+            android:title="历史记录" />
+        <item
+            android:id="@+id/settting"
+            android:icon="@drawable/ic_setting"
+            android:title="设置" />
+    </group>
+
+    <item android:title="更多">
+        <menu>
+            <item
+                android:id="@+id/feedback"
+                android:icon="@drawable/ic_feedback"
+                android:title="反馈" />
+            <item
+                android:id="@+id/about_us"
+                android:icon="@drawable/ic_about"
+                android:title="关于我们" />
+        </menu>
+    </item>
+
+</menu>

@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.ustc.quincy.docshare.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <TableLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="100dp"
+        android:layout_marginLeft="40dp">
+        <TableRow>
+            <ImageButton
+                android:id="@+id/btn_search_devices"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/search_devices"/>
+            <ImageButton
+                android:id="@+id/btn_edit_image"
+                android:layout_marginLeft="40dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:layout_marginTop="15dp"
+                android:background="@drawable/imge_edit"/>
+        </TableRow>
+
+        <TableRow
+            android:layout_marginTop="80dp">
+            <ImageButton
+                android:id="@+id/btn_send_file"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/send_file"
+                />
+            <ImageButton
+                android:id="@+id/btn_receive_file"
+                android:layout_marginLeft="50dp"
+                android:layout_width="125dp"
+                android:layout_height="125dp"
+                android:background="@drawable/receive_file"/>
+
+        </TableRow>
+    </TableLayout>
+
+
+</RelativeLayout>
