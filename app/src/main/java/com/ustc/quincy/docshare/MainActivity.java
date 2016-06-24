@@ -1,18 +1,32 @@
 package com.ustc.quincy.docshare;
 
+import android.content.Intent;
+import android.net.wifi.WifiInfo;
+import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
+
+import com.ustc.quincy.docshare.activity.ShowDevices;
+
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -22,6 +36,12 @@ public class MainActivity extends AppCompatActivity
     private ImageButton btnSendFile;
     private ImageButton btnReceiveFile;
 
+    private Handler handler;
+    private ServerSocket server;
+
+    private List<String> deviceList;
+
+    private int PORT =6666;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -47,7 +67,9 @@ public class MainActivity extends AppCompatActivity
         btnSearchDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(MainActivity.this,"search", Toast.LENGTH_SHORT).show();
+               //Toast.makeText(MainActivity.this,"search", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(MainActivity.this, ShowDevices.class);
+                startActivity(intent);
             }
         });
 
@@ -72,6 +94,51 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //receive files
+            }
+        });
+
+
+        //消息处理
+        handler = new Handler(){
+            @Override
+            public void handleMessage(Message msg) {
+                switch (msg.what){
+                    case 1:
+                        Log.v("DocShare", "收到消息");
+                }
+            }
+        };
+
+        //监听端口
+        Thread listener = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                //绑定端口6666
+                try {
+                    //创建一个ServerSocket对象，并让这个Socket在6666端口监听
+                    server = new ServerSocket(PORT);
+                    //调用ServerSocket的accept()方法，接受客户端所发送的请求
+                    Socket socket = server.accept();
+                    //从Socket当中得到InputStream对象
+                    InputStream inputStream = socket.getInputStream();
+                    byte buffer [] = new byte[1024*4];
+                    int temp = 0;
+                    //从InputStream当中读取客户端所发送的数据
+                    while((temp = inputStream.read(buffer)) != -1){
+                        System.out.println(new String(buffer,0,temp));
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
+                if(server != null){
+                    Message.obtain(handler, 1, "本机IP：" + GetIpAddress() + " 监听端口:" + PORT).sendToTarget();
+//                    while(true){
+//                        //接收文件
+//                    }
+                }else{
+                    Message.obtain(handler, 1, "绑定端口失败").sendToTarget();
+                }
             }
         });
     }
@@ -129,5 +196,15 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public String GetIpAddress() {
+        WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
+        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
+        int i = wifiInfo.getIpAddress();
+        return (i & 0xFF) + "." +
+                ((i >> 8 ) & 0xFF) + "." +
+                ((i >> 16 ) & 0xFF)+ "." +
+                ((i >> 24 ) & 0xFF );
     }
 }
