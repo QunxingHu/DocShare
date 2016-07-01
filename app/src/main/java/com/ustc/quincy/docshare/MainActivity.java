@@ -20,7 +20,18 @@ import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+
+import com.mysql.jdbc.Connection;
+import com.mysql.jdbc.PreparedStatement;
+import com.mysql.jdbc.ResultSet;
+import com.ustc.quincy.docshare.activity.LoginActivity;
 import com.ustc.quincy.docshare.activity.ShowDevices;
+import com.ustc.quincy.docshare.util.HttpUtils;
+import com.ustc.quincy.docshare.util.JDBCUtils;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,7 +52,8 @@ public class MainActivity extends AppCompatActivity
 
     private List<String> deviceList;
 
-    private int PORT =6666;
+    private int PORT = 6666;
+    private String resultStr="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,9 +79,15 @@ public class MainActivity extends AppCompatActivity
         btnSearchDevices.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               //Toast.makeText(MainActivity.this,"search", Toast.LENGTH_SHORT).show();
+               Toast.makeText(MainActivity.this,"search", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ShowDevices.class);
                 startActivity(intent);
+
+//                try{
+//                    sarchDevices();}
+//                catch (Exception e){
+//                    e.printStackTrace();
+//                }
             }
         });
 
@@ -183,6 +201,8 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.user) {
             // Handle the edit user profile action
+            Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+            startActivity(intent);
         } else if (id == R.id.history) {
 
         } else if (id == R.id.settting) {
@@ -207,4 +227,5 @@ public class MainActivity extends AppCompatActivity
                 ((i >> 16 ) & 0xFF)+ "." +
                 ((i >> 24 ) & 0xFF );
     }
+
 }

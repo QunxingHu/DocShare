@@ -6,7 +6,10 @@ import android.net.wifi.WifiManager;
 import android.util.Log;
 import android.widget.Toast;
 
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 /**
@@ -19,7 +22,7 @@ public class ScanDevices {
     private String LOCAL_ADDRESS;    //本地IP前缀
     private int location; //存放ip最后一位地址0~255
     private Context context;
-    private List<String> accessibleIpList = new ArrayList<>();
+    private ArrayList<HashMap<String,String>> listDevices;
 
     //构造函数
     public ScanDevices(Context con){
@@ -27,13 +30,15 @@ public class ScanDevices {
     }
 
     //扫描局域网内设备,获取在线设备ip列表
-    public List<String> scan(){
+    public ArrayList<HashMap<String,String>> scan(){
         //获取本机IP前缀
         LOCAL_ADDRESS = getLocAddrIndex();
         if (LOCAL_ADDRESS.equals("")){
             Toast.makeText(context,"扫描失败，请检查wifi连接",Toast.LENGTH_SHORT).show();
             return null;
         }
+
+        listDevices = new ArrayList<>();
 
         for(int j=0; j<256; j++) {
             location = j;
@@ -46,7 +51,12 @@ public class ScanDevices {
                             Process p = Runtime.getRuntime().exec("ping -c 1 -w 0.5 " + current_ip);
                             int status = p.waitFor();
                             if (status == 0) {
-                                accessibleIpList.add(current_ip);
+                                HashMap<String,String> map = new HashMap<>();
+                                map.put("ip", current_ip);
+                                map.put("port","6666");
+                                synchronized (this) {
+                                    listDevices.add(map);
+                                }
                                 Log.v("DocShare","连接" + current_ip + "成功");
 
                             } else
@@ -59,7 +69,8 @@ public class ScanDevices {
             }).start();
         }
 
-        return accessibleIpList;
+
+        return listDevices;
     }
 
 
@@ -86,6 +97,10 @@ public class ScanDevices {
     //获取本机设备名称
     public String getLocDeviceName() {
         return android.os.Build.MODEL;
+    }
+
+    public void getDevicesFromMySQL(int deviceId){
+
     }
 
 }
