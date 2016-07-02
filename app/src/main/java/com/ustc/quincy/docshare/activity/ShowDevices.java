@@ -1,6 +1,7 @@
 package com.ustc.quincy.docshare.activity;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -115,6 +116,13 @@ public class ShowDevices extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(ShowDevices.this,"device " + listData.get(position).get("ip_address"),Toast.LENGTH_SHORT).show();
+                Device tempDevice = new Device();
+                tempDevice.setUserName(listData.get(position).get("user_name"));
+                tempDevice.setDeviceName(listData.get(position).get("device_name"));
+                tempDevice.setIpAddress(listData.get(position).get("ip_address"));
+                Intent intent = new Intent(ShowDevices.this, SendFile.class);
+                intent.putExtra("target",tempDevice);
+                startActivity(intent);
             }
         });
 

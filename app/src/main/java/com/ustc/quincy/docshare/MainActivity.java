@@ -37,6 +37,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity
@@ -120,45 +121,50 @@ public class MainActivity extends AppCompatActivity
         handler = new Handler(){
             @Override
             public void handleMessage(Message msg) {
-                switch (msg.what){
+                switch(msg.what){
+                    case 0:
+                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                        break;
                     case 1:
-                        Log.v("DocShare", "收到消息");
+                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
+                    case 2:
+                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
                 }
             }
         };
 
         //监听端口
-        Thread listener = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                //绑定端口6666
-                try {
-                    //创建一个ServerSocket对象，并让这个Socket在6666端口监听
-                    server = new ServerSocket(PORT);
-                    //调用ServerSocket的accept()方法，接受客户端所发送的请求
-                    Socket socket = server.accept();
-                    //从Socket当中得到InputStream对象
-                    InputStream inputStream = socket.getInputStream();
-                    byte buffer [] = new byte[1024*4];
-                    int temp = 0;
-                    //从InputStream当中读取客户端所发送的数据
-                    while((temp = inputStream.read(buffer)) != -1){
-                        System.out.println(new String(buffer,0,temp));
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-                if(server != null){
-                    Message.obtain(handler, 1, "本机IP：" + GetIpAddress() + " 监听端口:" + PORT).sendToTarget();
-//                    while(true){
-//                        //接收文件
+//        Thread listener = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                //绑定端口6666
+//                try {
+//                    //创建一个ServerSocket对象，并让这个Socket在6666端口监听
+//                    server = new ServerSocket(PORT);
+//                    //调用ServerSocket的accept()方法，接受客户端所发送的请求
+//                    Socket socket = server.accept();
+//                    //从Socket当中得到InputStream对象
+//                    InputStream inputStream = socket.getInputStream();
+//                    byte buffer [] = new byte[1024*4];
+//                    int temp = 0;
+//                    //从InputStream当中读取客户端所发送的数据
+//                    while((temp = inputStream.read(buffer)) != -1){
+//                        System.out.println(new String(buffer,0,temp));
 //                    }
-                }else{
-                    Message.obtain(handler, 1, "绑定端口失败").sendToTarget();
-                }
-            }
-        });
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                if(server != null){
+//                    Message.obtain(handler, 1, "本机IP：" + GetIpAddress() + " 监听端口:" + PORT).sendToTarget();
+////                    while(true){
+////                        //接收文件
+////                    }
+//                }else{
+//                    Message.obtain(handler, 1, "绑定端口失败").sendToTarget();
+//                }
+//            }
+//        });
     }
 
     @Override

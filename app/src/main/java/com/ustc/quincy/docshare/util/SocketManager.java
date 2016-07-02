@@ -25,8 +25,8 @@ public class SocketManager {
         this.server = serverSocket;
     }
 
-    //接收文件
-    public String ReceiveFile(){
+    //接收文件名
+    public String receiveFileName(){
         try{
             //接收文件名
             Socket name = server.accept();
@@ -38,6 +38,15 @@ public class SocketManager {
             streamReader.close();
             nameStream.close();
             name.close();
+            return fileName;
+        }catch(Exception e){
+            return "接收错误:\n" + e.getMessage();
+        }
+    }
+
+    //接收文件内容
+    public String ReceiveFileContent(String fileName){
+        try{
             //接收文件数据
             Socket data = server.accept();
             InputStream dataStream = data.getInputStream();
