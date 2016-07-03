@@ -94,62 +94,15 @@ public class SendFile extends AppCompatActivity{
             }
         };
 
-        Thread listener = new Thread(new Runnable(){
-            @Override
-            public void run() {
-                //绑定端口
-                while(port > 6000){
-                    try {
-                        server = new ServerSocket(port);
-                        break;
-                    } catch (Exception e) {
-                        port--;
-                    }
-                }
-
-                if (server != null){
-                    socketManager = new SocketManager(server);
-                    Message.obtain(handler, 1,  "监听端口:" + port).sendToTarget();
-                   final String receiveFileName;
-                    receiveFileName = socketManager.receiveFileName();
-
-                    final String name =receiveFileName;
-                        //弹出提示框
-                        AlertDialog.Builder dialog = new AlertDialog.Builder(SendFile.this);
-                        dialog.setTitle("DocShare提示：");
-                        dialog.setMessage("是否接收文件："+receiveFileName);
-                        dialog.setPositiveButton("接收", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                new  Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        //开始接收文件内容
-                                        String response = socketManager.ReceiveFileContent(name);
-                                        Message.obtain(handler, 0, response).sendToTarget();
-                                    }
-                                }).start();
-                            }
-                        });
-                        dialog.setNegativeButton("拒绝", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                //拒绝接收文件
-                                Toast.makeText(SendFile.this,"拒绝接收文件"+name, Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    Looper.prepare();
-                        dialog.show();
-                    Looper.loop();
-
-                }else{
-                    Message.obtain(handler, 1, "未能绑定端口").sendToTarget();
-                }
-            }
-        });
-        listener.start();
-
-
+        try {
+            server = new ServerSocket(port);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (server != null) {
+            socketManager = new SocketManager(server);
+            Message.obtain(handler, 1,  "监听端口:" + port).sendToTarget();
+        }
         //选择文件
         btnChoseFile.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -197,6 +150,7 @@ public class SendFile extends AppCompatActivity{
             Log.v("DocShare","file uri:" + uri);
             filePath = getPath(SendFile.this,uri);
             txtFilePath.setText(filePath);
+
             file = new File(filePath);
             fileName = file.getName();
             fileAbsPath = file.getAbsolutePath();
@@ -208,6 +162,15 @@ public class SendFile extends AppCompatActivity{
         }
     }
 
+    @Override
+    protected void onDestroy() {
+        try {
+            server.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        super.onDestroy();
+    }
 
     public String getRealPathFromURI(Uri contentUri) {
         String res = null;
@@ -230,7 +193,7 @@ public class SendFile extends AppCompatActivity{
      * @param uri The Uri to query.
      * @author paulburke
      */
-    public static String getPath(final Context context, final Uri uri) {
+    public String getPath(final Context context, final Uri uri) {
 
         final boolean isKitKat = Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT;
 
@@ -289,6 +252,25 @@ public class SendFile extends AppCompatActivity{
             else if ("file".equalsIgnoreCase(uri.getScheme())) {
                 return uri.getPath();
             }
+        }else{
+            String filename=null;
+            Cursor cursor;
+            if (uri.getScheme().toString().compareTo("content") == 0) {
+                cursor = getContentResolver().query(uri, new String[] {MediaStore.Audio.Media.DATA}, null, null, null);
+                if (cursor.moveToFirst()) {
+                    filename = cursor.getString(0);
+                }
+            }else if (uri.getScheme().toString().compareTo("file") == 0)         //file:///开头的uri
+            {
+                filename = uri.toString();
+                filename = uri.toString().replace("file://", "");
+                //替换file://
+                if(!filename.startsWith("/mnt")){
+                    //加上"/mnt"头
+                    filename += "/mnt";
+                }
+            }
+            return filename;
         }
 
         return null;

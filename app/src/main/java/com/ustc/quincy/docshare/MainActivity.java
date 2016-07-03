@@ -25,7 +25,9 @@ import com.mysql.jdbc.Connection;
 import com.mysql.jdbc.PreparedStatement;
 import com.mysql.jdbc.ResultSet;
 import com.ustc.quincy.docshare.activity.LoginActivity;
+import com.ustc.quincy.docshare.activity.ReceiveFile;
 import com.ustc.quincy.docshare.activity.ShowDevices;
+import com.ustc.quincy.docshare.util.FileUtils;
 import com.ustc.quincy.docshare.util.HttpUtils;
 import com.ustc.quincy.docshare.util.JDBCUtils;
 
@@ -112,7 +114,8 @@ public class MainActivity extends AppCompatActivity
         btnReceiveFile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //receive files
+               Intent intent = new Intent(MainActivity.this, ReceiveFile.class);
+                startActivity(intent);
             }
         });
 
@@ -133,38 +136,6 @@ public class MainActivity extends AppCompatActivity
             }
         };
 
-        //监听端口
-//        Thread listener = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                //绑定端口6666
-//                try {
-//                    //创建一个ServerSocket对象，并让这个Socket在6666端口监听
-//                    server = new ServerSocket(PORT);
-//                    //调用ServerSocket的accept()方法，接受客户端所发送的请求
-//                    Socket socket = server.accept();
-//                    //从Socket当中得到InputStream对象
-//                    InputStream inputStream = socket.getInputStream();
-//                    byte buffer [] = new byte[1024*4];
-//                    int temp = 0;
-//                    //从InputStream当中读取客户端所发送的数据
-//                    while((temp = inputStream.read(buffer)) != -1){
-//                        System.out.println(new String(buffer,0,temp));
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//
-//                if(server != null){
-//                    Message.obtain(handler, 1, "本机IP：" + GetIpAddress() + " 监听端口:" + PORT).sendToTarget();
-////                    while(true){
-////                        //接收文件
-////                    }
-//                }else{
-//                    Message.obtain(handler, 1, "绑定端口失败").sendToTarget();
-//                }
-//            }
-//        });
     }
 
     @Override

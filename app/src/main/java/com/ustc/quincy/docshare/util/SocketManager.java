@@ -4,6 +4,7 @@ import android.os.Environment;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.InputStream;
@@ -44,6 +45,25 @@ public class SocketManager {
         }
     }
 
+    //接收文件大小
+    public String receiveFileSize(){
+        try{
+            //接收文件名
+            Socket size = server.accept();
+            InputStream sizeStream = size.getInputStream();
+            InputStreamReader streamReader = new InputStreamReader(sizeStream);
+            BufferedReader br = new BufferedReader(streamReader);
+            String fileSize = br.readLine();
+            br.close();
+            streamReader.close();
+            sizeStream.close();
+            size.close();
+            return fileSize;
+        }catch(Exception e){
+            return "接收错误:\n" + e.getMessage();
+        }
+    }
+
     //接收文件内容
     public String ReceiveFileContent(String fileName){
         try{
@@ -69,6 +89,7 @@ public class SocketManager {
     //发送文件
     public String SendFile(String fileName, String path, String ipAddress, int port){
         try {
+            //发送文件名
             Socket name = new Socket(ipAddress, port);
             OutputStream outputName = name.getOutputStream();
             OutputStreamWriter outputWriter = new OutputStreamWriter(outputName);
@@ -79,6 +100,19 @@ public class SocketManager {
             outputName.close();
             name.close();
 
+            //发送文件大小
+            Socket fileSize = new Socket(ipAddress, port);
+            OutputStream outputFileSize = fileSize.getOutputStream();
+            OutputStreamWriter outputSizeWriter = new OutputStreamWriter(outputFileSize);
+            BufferedWriter bwSize = new BufferedWriter(outputSizeWriter);
+            File tmp = new File(path);
+            bwSize.write(String.valueOf(FileUtils.getFileSize(tmp)));
+            bwSize.close();
+            outputSizeWriter.close();
+            outputFileSize.close();
+            fileSize.close();
+
+            //发送文件内容
             Socket data = new Socket(ipAddress, port);
             OutputStream outputData = data.getOutputStream();
             FileInputStream fileInput = new FileInputStream(path);
