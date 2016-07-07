@@ -28,7 +28,7 @@ public class NetUtil {
 
     static
     {
-        URLPREV="http://192.168.10.130:8080/login/servlet/";      /* http:\\localhost:8080\ */
+        URLPREV="http://192.168.8.251:8080/login/servlet/";      /* http:\\localhost:8080\ */
     }
 
     public static  void sendToServer(final String url, final HashMap<String,String> message,final Handler resultHandler)

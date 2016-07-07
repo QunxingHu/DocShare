@@ -21,15 +21,9 @@
         android:layout_marginLeft="12dp"
         android:paddingTop="@dimen/nav_header_vertical_spacing"
         android:textSize="20sp"
+        android:id="@+id/main_uer_name"
         android:text="用户名"
         android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginLeft="12dp"
-        android:text="用户账号" />
 
 </LinearLayout>

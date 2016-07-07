@@ -1,46 +1,26 @@
 package com.ustc.quincy.docshare;
 
 import android.content.Intent;
-import android.net.wifi.WifiInfo;
-import android.net.wifi.WifiManager;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Message;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.ResultSet;
 import com.ustc.quincy.docshare.activity.LoginActivity;
 import com.ustc.quincy.docshare.activity.ReceiveFile;
 import com.ustc.quincy.docshare.activity.ShowDevices;
-import com.ustc.quincy.docshare.util.FileUtils;
-import com.ustc.quincy.docshare.util.HttpUtils;
-import com.ustc.quincy.docshare.util.JDBCUtils;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.ServerSocket;
-import java.net.Socket;
-import java.text.SimpleDateFormat;
-import java.util.List;
+import com.ustc.quincy.docshare.activity.Synthesize;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -49,14 +29,10 @@ public class MainActivity extends AppCompatActivity
     private ImageButton btnEditImg;
     private ImageButton btnSendFile;
     private ImageButton btnReceiveFile;
+    private TextView txtUser;
 
-    private Handler handler;
-    private ServerSocket server;
 
-    private List<String> deviceList;
 
-    private int PORT = 6666;
-    private String resultStr="";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,6 +53,7 @@ public class MainActivity extends AppCompatActivity
         btnEditImg = (ImageButton) findViewById(R.id.btn_edit_image);
         btnSendFile = (ImageButton) findViewById(R.id.btn_send_file);
         btnReceiveFile = (ImageButton) findViewById(R.id.btn_receive_file);
+        txtUser = (TextView) navigationView.inflateHeaderView(R.layout.nav_header_main).findViewById(R.id.main_uer_name);
 
         //搜索设备
         btnSearchDevices.setOnClickListener(new View.OnClickListener() {
@@ -85,12 +62,6 @@ public class MainActivity extends AppCompatActivity
                Toast.makeText(MainActivity.this,"search", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ShowDevices.class);
                 startActivity(intent);
-
-//                try{
-//                    sarchDevices();}
-//                catch (Exception e){
-//                    e.printStackTrace();
-//                }
             }
         });
 
@@ -99,6 +70,8 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //edit images
+                Intent intent = new Intent(MainActivity.this, Synthesize.class);
+                startActivity(intent);
             }
         });
 
@@ -120,21 +93,15 @@ public class MainActivity extends AppCompatActivity
         });
 
 
-        //消息处理
-        handler = new Handler(){
-            @Override
-            public void handleMessage(Message msg) {
-                switch(msg.what){
-                    case 0:
-                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1:
-                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
-                    case 2:
-                        Toast.makeText(getApplicationContext(), msg.obj.toString(), Toast.LENGTH_SHORT).show();
-                }
-            }
-        };
+        //自动登录
+        SharedPreferences pref = getSharedPreferences("user_data",MODE_PRIVATE);
+        String name = pref.getString("name","");
+        String password= pref.getString("password","");
+        int status = pref.getInt("status",0);
+        if(status==1){
+            txtUser.setText(name);
+            Toast.makeText(MainActivity.this,name +"登录成功",Toast.LENGTH_SHORT).show();
+        }
 
     }
 
@@ -195,14 +162,5 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public String GetIpAddress() {
-        WifiManager wifiManager = (WifiManager) getSystemService(WIFI_SERVICE);
-        WifiInfo wifiInfo = wifiManager.getConnectionInfo();
-        int i = wifiInfo.getIpAddress();
-        return (i & 0xFF) + "." +
-                ((i >> 8 ) & 0xFF) + "." +
-                ((i >> 16 ) & 0xFF)+ "." +
-                ((i >> 24 ) & 0xFF );
-    }
 
 }

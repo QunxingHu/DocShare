@@ -13,39 +13,50 @@
     tools:showIn="@layout/app_bar_main">
 
     <TableLayout
+        android:layout_marginTop="30dp"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="40dp">
-        <TableRow>
+        android:layout_height="wrap_content">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <ImageButton
                 android:id="@+id/btn_search_devices"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:background="@drawable/search_devices"/>
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/search_devices"
+                android:background="#00000000"/>
             <ImageButton
                 android:id="@+id/btn_edit_image"
-                android:layout_marginLeft="40dp"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:layout_marginTop="15dp"
-                android:background="@drawable/imge_edit"/>
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:scaleType="fitCenter"
+                android:src="@drawable/edit_image"
+                android:background="#00000000"/>
         </TableRow>
 
         <TableRow
-            android:layout_marginTop="80dp">
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
             <ImageButton
                 android:id="@+id/btn_send_file"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:background="@drawable/send_file"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bluetooth"
+                android:scaleType="fitCenter"
+                android:background="#00000000"
                 />
             <ImageButton
                 android:id="@+id/btn_receive_file"
-                android:layout_marginLeft="50dp"
-                android:layout_width="125dp"
-                android:layout_height="125dp"
-                android:background="@drawable/receive_file"/>
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="wrap_content"
+                android:src="@drawable/receive_file"
+                android:scaleType="fitCenter"
+                android:background="#00000000"/>
 
         </TableRow>
     </TableLayout>

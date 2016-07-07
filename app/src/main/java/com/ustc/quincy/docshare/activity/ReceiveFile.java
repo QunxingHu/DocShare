@@ -73,9 +73,17 @@ public class ReceiveFile extends AppCompatActivity {
                 switch (msg.what){
                     case 2:{
                         //显示文件信息
-                        txtFileSize.setText(FileUtils.FormetFileSize(fileSize));
-                        txtFileName.setText(fileName);
-                        txtFileType.setText(FileUtils.getFileType(fileName));
+                        if(fileName!=null){
+                            txtFileSize.setText(FileUtils.FormetFileSize(fileSize));
+                            txtFileName.setText(fileName);
+                            txtFileType.setText(FileUtils.getFileType(fileName));
+                        }else
+                        {
+                            txtFileSize.setText("0B");
+                            txtFileName.setText("/");
+                            txtFileType.setText("");
+                        }
+
 
                     }break;
                 }
@@ -106,6 +114,7 @@ public class ReceiveFile extends AppCompatActivity {
                         Log.v("DocShare", "收到文件名：" + fileName);
                         //接收文件大小
                         fileSize = Long.valueOf(socketManager.receiveFileSize());
+
                         Log.v("DocShare", "收到文件大小：" + fileSize);
                         Message.obtain(handler, 2, "收到文件信息:" + port).sendToTarget();
 

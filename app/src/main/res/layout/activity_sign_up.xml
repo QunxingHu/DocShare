@@ -16,17 +16,18 @@
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="username"
+            android:hint="用户名"
             android:id="@+id/sign_username"/>
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="password"
+            android:hint="密码"
+            android:password="true"
             android:id="@+id/sign_password"/>
         <Button
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="sign_up"
+            android:text="注册"
             android:id="@+id/sign_up"
             />
     </LinearLayout>

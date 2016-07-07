@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:weightSum="1.0"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:text="图片1"
+        android:background="@color/myblue"
+        android:id="@+id/btn_jpg1"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentStart="true"
+        />
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@color/myblue2"
+        android:text="图片2"
+        android:id="@+id/btn_jpg2"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_jpg1" />
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@color/myblue3"
+        android:text="图片3"
+        android:id="@+id/btn_jpg3"
+        android:layout_alignParentTop="true"
+        android:layout_toEndOf="@+id/btn_jpg2" />
+    <Button
+        android:layout_width="70dp"
+        android:layout_height="wrap_content"
+        android:background="@color/myblue4"
+        android:text="图片4"
+        android:id="@+id/btn_jpg4"
+        android:layout_above="@+id/imageView"
+        android:layout_toEndOf="@+id/btn_jpg3" />
+
+    <Button
+        android:layout_width="60dp"
+        android:layout_height="wrap_content"
+        android:background="@color/myred"
+        android:text="合成"
+        android:id="@+id/btn_synthesize"
+
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/imageView2" />
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:background="@color/myblue"
+        android:layout_marginTop="10dp"
+        android:id="@+id/imageView"
+        android:layout_below="@+id/btn_jpg1"
+        android:layout_alignParentStart="true" />
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:background="@color/myblue2"
+        android:id="@+id/imageView2"
+        android:layout_alignTop="@+id/imageView"
+        android:layout_toEndOf="@+id/imageView" />
+
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:background="@color/myblue3"
+        android:id="@+id/imageView3"
+        android:layout_below="@+id/imageView"
+        android:layout_alignParentStart="true" />
+    <ImageView
+        android:layout_width="180dp"
+        android:layout_height="250dp"
+        android:background="@color/myblue4"
+        android:id="@+id/imageView4"
+        android:layout_below="@+id/imageView2"
+        android:layout_toEndOf="@+id/imageView" />
+
+</RelativeLayout>

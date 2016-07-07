@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical" android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="#1e46c8"
+        android:text="模板1(A4:2,2,4)"
+        android:id="@+id/template1"
+        android:layout_marginTop="180dp"
+        />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="#b81db6"
+        android:text="模板2(A4:2,2)"
+        android:id="@+id/template2"
+        android:layout_marginTop="30dp"
+        />
+
+    <Button
+        android:layout_width="200dp"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:background="#3cca23"
+        android:text="模板3(A4:2,2,2,2)"
+        android:id="@+id/template3"
+        android:layout_marginTop="30dp"
+        />
+</LinearLayout>

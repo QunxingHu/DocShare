@@ -41,7 +41,7 @@ public class SocketManager {
             name.close();
             return fileName;
         }catch(Exception e){
-            return "接收错误:\n" + e.getMessage();
+            return null;
         }
     }
 
@@ -60,7 +60,7 @@ public class SocketManager {
             size.close();
             return fileSize;
         }catch(Exception e){
-            return "接收错误:\n" + e.getMessage();
+            return null;
         }
     }
 
@@ -82,7 +82,7 @@ public class SocketManager {
             data.close();
             return fileName + " 接收完成";
         }catch(Exception e){
-            return "接收错误:\n" + e.getMessage();
+            return null;
         }
     }
 

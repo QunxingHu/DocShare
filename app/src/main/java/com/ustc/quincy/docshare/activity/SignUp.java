@@ -2,6 +2,7 @@ package com.ustc.quincy.docshare.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
@@ -9,11 +10,13 @@ import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.ustc.quincy.docshare.MainActivity;
 import com.ustc.quincy.docshare.R;
 import com.ustc.quincy.docshare.util.NetUtil;
 
@@ -57,14 +60,21 @@ public class SignUp extends AppCompatActivity {
                 message.put("device_name", android.os.Build.MODEL);
                 message.put("ip_address", getIpAddress());
                 NetUtil.sendToServer("Signup",message,handler);
-                //注册之后跳转到确认登录页面 直接传递用户名和密码
-                Intent intent = new Intent(SignUp.this,SignupSucceed.class);
-                intent.putExtra("username", username.getText().toString());
-                intent.putExtra("password", password.getText().toString());
-                Log.v("DOC",android.os.Build.MODEL);
-                intent.putExtra("device_name", android.os.Build.MODEL);
-                intent.putExtra("ip_address",getIpAddress());
-                startActivity(intent);
+
+                //注册之后直接登录
+                HashMap<String, String> message2 = new HashMap<String, String>();
+                message2.put("username", username.getText().toString());
+                message2.put("password", password.getText().toString());
+                NetUtil.sendToServer("Login", message2, handler);
+
+                //保存用户信息和登录状态
+                SharedPreferences.Editor editor = getSharedPreferences("user_data", MODE_PRIVATE).edit();
+                editor.putString("name",username.getText().toString());
+                editor.putString("password", password.getText().toString());
+                editor.putInt("status", 1);
+                editor.commit();
+
+                finish();
             }
         });
     }

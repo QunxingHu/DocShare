@@ -91,6 +91,7 @@ public class LoginActivity extends AppCompatActivity {
                 message.put("username", username.getText().toString());
                 message.put("password", password.getText().toString());
                 NetUtil.sendToServer("Login", message, handler);
+                finish();
             }
         });
 
@@ -99,6 +100,7 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, SignUp.class);
                 startActivity(intent);
+                finish();
             }
         });
         ////////////////////
@@ -116,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                 message.put("password", password);
 //                message.put("username",username.getText().toString());
                 NetUtil.sendToServer("logout", message, handlerout);
-
+                finish();
 //                SharedPreferences.Editor editor = getSharedPreferences("user_data",MODE_PRIVATE).edit();
 //                editor.putString("name", username);
 //                editor.putString("password", password);

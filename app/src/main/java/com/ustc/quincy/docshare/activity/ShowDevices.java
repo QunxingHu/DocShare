@@ -1,6 +1,5 @@
 package com.ustc.quincy.docshare.activity;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.net.wifi.WifiInfo;
 import android.net.wifi.WifiManager;
@@ -8,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -20,23 +18,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.mysql.jdbc.Connection;
-import com.mysql.jdbc.PreparedStatement;
-import com.mysql.jdbc.ResultSet;
 import com.ustc.quincy.docshare.R;
-import com.ustc.quincy.docshare.ScanDevices;
 import com.ustc.quincy.docshare.model.Device;
 import com.ustc.quincy.docshare.util.HttpUtils;
-import com.ustc.quincy.docshare.util.JDBCUtils;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 
 /**

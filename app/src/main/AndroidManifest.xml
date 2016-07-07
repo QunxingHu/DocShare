@@ -29,10 +29,12 @@
         <activity android:name=".activity.ShowDevices"/>
         <activity android:name=".activity.LoginActivity"/>
         <activity android:name=".activity.SignUp"/>
-        <activity android:name=".activity.SignupSucceed"/>
         <activity android:name=".activity.SendFile"/>
         <activity android:name=".activity.ReceiveFile"/>
-
+        <activity android:name=".activity.Synthesize"/>
+        <activity android:name=".activity.Template1"/>
+        <activity android:name=".activity.Template2"/>
+        <activity android:name=".activity.Template3"/>
     </application>
 
 </manifest>

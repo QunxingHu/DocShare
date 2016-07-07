@@ -17,7 +17,7 @@ public class HttpUtils {
     /**
      * 请求对应的基础URL
      */
-    public static final String BASE_URL = "http://192.168.10.130:8080/login/servlet/";
+    public static final String BASE_URL = "http://192.168.8.251:8080/login/servlet/";
     /**
      * 通过URL获取HttpPost请求
      * @param url
